@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Novo Funcionário</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="createProf">
+
+        <div class="fieldsCollection">
+
+            <h:outputText value=" Novo Funcionário " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B"/>
+
+            <div class="dotline"/>
+
+
+            <h:panelGroup id="profissional_select"> 
+                <div >
+                    <p:selectOneRadio style="width: 520px;"
+                                      id="tipo" value="#{gerenciamentoMBean.tipoProfSelect}">  
+                        <f:selectItem itemLabel="Médico" itemValue="M" />  
+                        <f:selectItem itemLabel="Enfermeiro" itemValue="E" />  
+                        <f:selectItem itemLabel="Farmacêutico" itemValue="F" />  
+                        <f:ajax event="change" render="profissional_select" listener="#{gerenciamentoMBean.selectTipoProfessional()}" /> 
+                    </p:selectOneRadio>   
+                </div >
+
+                <br/>
+                <br/>
+
+                <h:panelGroup id="profissional"
+                              rendered="#{gerenciamentoMBean.tipoProfSelect != null}">
+
+
+                    <div class="dotline"/>
+
+                    <table>
+
+
+                        <tr >
+                            <td align="right">
+                                <h:outputLabel for="nome" value="Nome: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="nome" value="#{gerenciamentoMBean.profissional.nome}"
+                                             required="true" label="Nome"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel for="endereco" value="Endereço: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="endereco" value="#{gerenciamentoMBean.profissional.endereco}"
+                                             required="true" label="Endereço"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel for="experiencia" value="Experiência: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="experiencia" value="#{gerenciamentoMBean.profissional.experiencia}"
+                                             required="true" label="Experiência"/>                              
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel for="qualificacao" value="Qualificação: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="qualificacao" value="#{gerenciamentoMBean.profissional.qualificacao}"
+                                             required="true" label="Qualificação"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel for="honorario" value="Honorários: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="honorario" value="#{gerenciamentoMBean.profissional.honorario}"
+                                             required="true" label="Honorários"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel for="dataEntradaEquipe" value="Entrada em Equipe: "/>
+                            </td>
+                            <td>
+                                <p:calendar id="dataEntradaEquipe"  value="#{gerenciamentoMBean.profissional.dataEntradaEquipe}"
+                                            required="true" label="Data de Entrada na Equipe"
+                                            pattern="dd/MM/yyyy"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel for="equipe" value="Equipe: "/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{gerenciamentoMBean.profissional.equipe}"  converter="equipeConverter"> 
+                                    <f:selectItems value="#{gerenciamentoMBean.equipeList}" var="equipe" itemLabel="#{equipe.nome}" itemValue="#{equipe}"/>  
+                                </p:selectOneMenu>  
+                            </td>
+                        </tr>
+
+
+                        <h:panelGroup id="tipo_profissional">
+
+                            <h:panelGroup id="medico"
+                                          rendered="#{gerenciamentoMBean.tipoProfSelect == 'M'}">
+
+
+                                <tr >
+                                    <td align="right">
+                                        <h:outputLabel for="crm" value="CRM: "/>
+                                    </td>
+                                    <td>
+                                        <p:inputText id="crm" value="#{gerenciamentoMBean.medico.crm}"
+                                                     required="true" label="CRM"/>
+                                    </td>
+                                </tr>
+
+
+                            </h:panelGroup>
+                            <h:panelGroup id="enfermeiro"
+                                          rendered="#{gerenciamentoMBean.tipoProfSelect == 'E'}">
+
+                                <tr >
+                                    <td align="right">
+                                        <h:outputLabel for="cre" value="CRE: "/>
+                                    </td>
+                                    <td>
+                                        <p:inputText id="cre" value="#{gerenciamentoMBean.enfermeiro.cre}"
+                                                     required="true" label="CRE"/>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td align="right">
+                                        <h:outputLabel for="tempoExperiencia" value="Tempo de Experiência: "/>
+                                    </td>
+                                    <td>
+                                        <p:inputText id="tempoExperiencia" value="#{gerenciamentoMBean.enfermeiro.tempoExperiencia}"
+                                                     required="true" label="Tempo de Experiência"/>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td align="right">
+                                        <h:outputLabel  value="Setor: "/>
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu value="#{gerenciamentoMBean.enfermeiro.setor}"  converter="setorConverter"> 
+                                            <f:selectItems value="#{gerenciamentoMBean.setorList}" var="setor" itemLabel="#{setor.nome}" itemValue="#{setor}"/>  
+                                        </p:selectOneMenu>  
+                                    </td>
+                                </tr>
+
+                            </h:panelGroup>
+                            <h:panelGroup id="farmaceutico"
+                                          rendered="#{gerenciamentoMBean.tipoProfSelect == 'F'}">
+
+                                <tr >
+                                    <td align="right">
+                                        <h:outputLabel for="crf" value="CRF: "/>
+                                    </td>
+                                    <td>
+                                        <p:inputText id="crf" value="#{gerenciamentoMBean.farmaceutico.crf}"
+                                                     required="true" label="CRF"/>
+                                    </td>
+                                </tr>
+
+                                <tr >
+                                    <td align="right">
+                                        <h:outputLabel for="limiteMedicamento" value="Limite de Medicamentos: "/>
+                                    </td>
+                                    <td>
+                                        <p:inputText id="limiteMedicamento" value="#{gerenciamentoMBean.farmaceutico.limiteMedicamento}"
+                                                     required="true" label="Limite de Medicamentos"/>
+                                    </td>
+                                </tr>
+
+                            </h:panelGroup>
+
+                        </h:panelGroup>
+
+                    </table>
+
+
+                    <div style="margin: 2em 2em;">
+                        <p:commandButton id="professional_create_button" value="Salvar" icon="ui-icon-disk"
+                                         action="#{gerenciamentoMBean.createProfissional()}"
+                                         onsuccess="msgResp.show()"/>
+                    </div>
+                    <p:dialog header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                              position="500, 600">
+
+                        <p:messages id="msg_create_prof" showDetail="true" autoUpdate="true"/>              
+                    </p:dialog>
+
+
+
+                </h:panelGroup>
+            </h:panelGroup>
+        </div>
+    </h:form>
+</ui:fragment>
+

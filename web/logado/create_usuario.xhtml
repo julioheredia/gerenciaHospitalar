@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Novo Usuário</title>
+    </h:head>
+
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="createPlano">
+
+        <div class="fieldsCollection">
+
+            <h:outputText value=" Novo Usuário " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B"/>
+
+            <div class="dotline"/>
+
+            <table>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel  value="Funcionário: "/>
+                    </td>
+                    <td>
+                        <p:selectOneMenu value="#{gerenciamentoMBean.usuario.profissional}"  converter="profissionalConverter"> 
+                            <f:selectItems value="#{gerenciamentoMBean.profissionalList}" var="profissional" itemLabel="#{profissional.nome}" itemValue="#{profissional}"/>  
+                        </p:selectOneMenu>  
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="email" value="Email: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="email" value="#{gerenciamentoMBean.usuario.email}"
+                                     required="true" label="Email"/>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="login" value="Login: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="login" value="#{gerenciamentoMBean.usuario.login}"
+                                     required="true" label="Login"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <h:outputLabel for="senha" value="Senha: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="senha" value="#{gerenciamentoMBean.usuario.senha}"
+                                     required="true" label="Senha"/>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div style="margin: 2em 2em;">
+                <p:commandButton id="plano_create_button" value="Salvar" icon="ui-icon-disk"
+                                 action="#{gerenciamentoMBean.createUsuario()}"
+                                 onsuccess="msgResp.show()"/>
+            </div>
+            <p:dialog header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                      position="500, 450" >
+
+                <p:messages id="msg_create_plano" showDetail="true" autoUpdate="true"/>              
+            </p:dialog> 
+
+        </div>
+
+    </h:form>
+
+
+
+</ui:fragment>
+
+

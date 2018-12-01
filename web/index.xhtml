@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Gerenciamento Hospitalar</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/style.css" />    
+        <link rel="icon" href="resources/images/health_ico.png" type="image/ico"/>
+    </h:head>   
+
+    <p:dialog styleClass="status" modal="true" widgetVar="statusLogin" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <h:body class="index">
+        <table align="center" >
+            <tr>
+                <td>
+
+                    <div style="height: 200px;">
+
+                        <p:graphicImage url="resources/images/e-Health.png" style="height: 197px; width: 200px;"/>
+
+                        <h:outputText value="Gerenciamento" style="font-size: xx-large; color: #591E12"/>
+                        <h:outputText value=" Hospitalar" style="font-size: xx-large;color: #D04528;"/>
+
+                    </div>
+                    <div style="height: 50px;"></div>
+
+                    <p:messages id="login_msg" showDetail="true" autoUpdate="true"/>
+                </td>
+            </tr>
+        </table>
+
+        <table align="center" >
+            <tr>
+                <td>
+
+                    <fieldset style="background-color: #fff; border: 1px solid rgb(168, 168, 168);">
+
+                        <div style="padding: 0.5em">
+
+                            <h:form id="login_form" onsubmit="statusLogin.show();">
+
+                                <h:panelGrid columns="1" id="matchGrid">
+                                    <h:outputLabel value="Login: "/>
+                                    <p:inputText value="#{loginMBean.login}"/>
+                                    <h:outputLabel for="senha" value="Senha: " />  
+                                    <p:password id="senha" value="#{loginMBean.senha}"/>
+
+
+                                    <div style="padding: 0.2em">
+                                        <p:commandButton style="background: #fff; border-color: aqua;font-size: medium; 
+                                                         width: 100px;border-radius: 5px 5px 5px 5px !important; font-weight: 500;"
+                                                         id="login" value="Login" actionListener="#{loginMBean.autenticarUsuario()}" ajax="false"/>  
+                                    </div>
+                                </h:panelGrid>
+                            </h:form>
+
+                        </div>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+    </h:body>
+</html>
+

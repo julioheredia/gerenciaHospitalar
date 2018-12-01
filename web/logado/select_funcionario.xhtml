@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Lista de Funcionários</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+
+    <br/>
+    <br/>
+    <div class="divList">
+        <h:outputText value=" Lista de Funcionários " style="font-size: xx-large; 
+                      font-family: Palatino, serif; color: #EF593B"/>
+    </div>
+    
+    <div align="center">
+
+        <h:form id="prof_select" onsubmit="statusMenu.show();">
+            <p:dataTable id="prof_list" value="#{gerenciamentoMBean.profissionalList}" var="profissional"
+                         style="width: 70%;" rowKey="#{profissional}"
+                         selection="#{gerenciamentoMBean.profissional}" selectionMode="single">
+
+                <p:column headerText="Nome">  
+                    #{profissional.nome}  
+                </p:column>  
+
+                <p:column headerText="Equipe">  
+                    #{profissional.equipe.nome}  
+                </p:column>  
+
+                <p:column headerText="Tipo">
+                    <h:outputText value="Médico" rendered="#{profissional.discriminator == 'M'}"/>
+                    <h:outputText value="Enfermeiro" rendered="#{profissional.discriminator == 'E'}"/>
+                    <h:outputText value="Farmacêutico" rendered="#{profissional.discriminator == 'F'}"/>
+                </p:column>
+
+                <f:facet name="footer">  
+                    <p:commandButton id="prof_remove" value="Remover" icon="ui-icon-trash" onclick="confirmation.show()"/>
+
+                    <p:commandButton id="call_edit" value="Editar" icon="ui-icon-pencil" ajax="false"
+                                     actionListener="#{gerenciamentoMBean.pageDirectEditProfissional()}"/>
+                </f:facet>  
+            </p:dataTable>
+
+            <p:confirmDialog id="confirmDialog" message="Você realmente deseja remover este funcionário?"  
+                             header="Remoção de Funcionário" severity="alert" widgetVar="confirmation">  
+
+                <p:commandButton id="confirm" value="Sim" update="prof_list" oncomplete="confirmation.hide()"  
+                                 actionListener="#{gerenciamentoMBean.removeProfissional()}" />  
+                <p:commandButton id="decline" value="Não" onclick="confirmation.hide()" type="button" />   
+
+            </p:confirmDialog> 
+
+        </h:form>
+
+    </div>     
+
+
+</ui:fragment>
+

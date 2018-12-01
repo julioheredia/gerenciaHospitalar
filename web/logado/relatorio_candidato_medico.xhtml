@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Relatório Médico Candidato</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true">  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+
+    <h:form id="relatorio_medico_cand" onsubmit="statusMenu.show();">
+
+
+        <br/>
+        <br/>
+        <div class="divList">
+            <h:outputText value=" Relatório de Candidatos à Médicos " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B;"/>
+        </div>
+
+        <div align="center">
+
+            <p:dataTable id="medico_cand_list" value="#{gerenciamentoMBean.medicoAvaliacaoList}" var="medicoCandidato"
+                         style="width: 90%;" rowKey="#{medicoCandidato}" 
+                         selection="#{gerenciamentoMBean.candidatoMedicoAvaliacao}" selectionMode="single">
+
+                <p:column headerText="Nome">  
+                    #{medicoCandidato.nome}  
+                </p:column>  
+
+                <p:column headerText="Experiência">  
+                    #{medicoCandidato.tempoExperiencia}
+                    <h:outputText value=" anos"/>
+                </p:column> 
+                <p:column headerText="Referências">  
+                    #{medicoCandidato.referenciasAnterioresCandidato.nome}  
+                </p:column> 
+                <p:column headerText="Pretensão">
+                    <h:outputText value="R$ "/>
+                    #{medicoCandidato.honorarioDesejado}  
+                </p:column> 
+                <p:column headerText="Qualificação">  
+                    #{medicoCandidato.qualificacaoCandidato.nome}  
+                </p:column>
+                <p:column headerText="Especialização">  
+                    #{medicoCandidato.especializacaoCandidato.nome}  
+                </p:column>
+                <p:column headerText="Status" style="width:100px;">  
+                    <p:rating value="#{medicoCandidato.statusCandidato.estrela}" readonly="true" />  
+                </p:column>
+                <p:column headerText="Recomendação">  
+                    #{medicoCandidato.statusCandidato.recomendacao}
+                </p:column>
+
+                <p:column headerText="Contratar">  
+                    <p:commandButton value="Contratar" action="#" />  
+                </p:column>
+
+                <f:facet name="footer">  
+                    <p:commandButton id="medico_cand_remove" value="Remover" icon="ui-icon-trash"
+                                     onclick="confirmationMedicoCandidato.show();"/>
+                </f:facet>  
+            </p:dataTable>
+
+            <p:confirmDialog  message="Você realmente deseja remover este candidato?"  
+                              header="Remoção de Médico Candidato" severity="alert" widgetVar="confirmationMedicoCandidato">  
+
+                <p:commandButton value="Sim" update="medico_cand_list" oncomplete="confirmationMedicoCandidato.hide()"  
+                                 actionListener="#{gerenciamentoMBean.removeMedicoCandidato()}" />  
+                <p:commandButton value="Não" onclick="confirmationClinica.hide();" type="button" />   
+
+            </p:confirmDialog> 
+        </div>
+    </h:form>
+
+</ui:fragment>

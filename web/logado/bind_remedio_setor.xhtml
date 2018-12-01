@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Vincular Medicamento à Setor</title>
+    </h:head>
+
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true">  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="bindMedicamentoSetor" onsubmit="statusMenu.show();">
+
+        <h:panelGroup id="bind">
+
+            <div class="fieldsCollection">
+
+                <h:outputText value=" Vincular Medicamento à Setor " style="font-size: xx-large; 
+                              font-family: Palatino, serif; color: #EF593B"/>
+
+                <div class="dotline"/>
+
+                <table>
+
+                    <tr >
+                        <td align="right">
+                            <h:outputLabel value="Medicamentos: "/>
+                        </td>
+                        <td>
+                            <p:selectOneMenu value="#{gerenciamentoMBean.medicamento}" converter="medicamentoConverter"> 
+                                <f:selectItems value="#{gerenciamentoMBean.medicamentoList}" var="medicamento" itemLabel="#{medicamento.nome}" itemValue="#{medicamento}"/>  
+                            </p:selectOneMenu> 
+                        </td>
+                    </tr>
+                    <tr >
+                        <td align="right">
+                            <h:outputLabel value="Setor: "/>
+                        </td>
+                        <td>
+                            <p:selectOneMenu value="#{gerenciamentoMBean.setor}" converter="setorConverter"> 
+                                <f:selectItems value="#{gerenciamentoMBean.setorList}" var="setor" itemLabel="#{setor.nome}" itemValue="#{setor}"/>  
+                            </p:selectOneMenu>  
+                        </td>
+                    </tr>
+
+
+
+
+                    <h:panelGroup id="area"
+                                  rendered="#{gerenciamentoMBean.requestMedicamentoSetor.areaNaoCadastrada}">
+
+                        <tr style="height:30px;font-family: Palatino, serif; color: #EF593B;">
+                            <td align="right">
+                                <h:outputLabel value="Vincule área à setor "/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel value="Áreas Hospitalares: "/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{gerenciamentoMBean.setor.areaHospitalar}" > 
+                                    <f:selectItems value="#{gerenciamentoMBean.areaHospitalarList}" var="areaHospitalar" itemLabel="#{areaHospitalar.nome}" itemValue="#{areaHospitalar}"/>  
+                                </p:selectOneMenu>  
+                            </td>
+                        </tr>
+                    </h:panelGroup>
+
+                </table>
+
+                <div style="margin: 2em 2em;">
+                    <p:commandButton id="medicamento_bind_button" value="Salvar" icon="ui-icon-disk"
+                                     action="#{gerenciamentoMBean.vincularMedicamentoSetor()}"
+                                     onsuccess="msgResp.show()"/>
+                </div>
+                
+                
+                <br/>
+                <br/>
+                
+                 <div align="center">
+                        <p:commandButton value="Lista de Medicamentos" icon="ui-icon-search" ajax="false"
+                                         action="#{gerenciamentoMBean.pageDirectSelectMedicamento()}"
+                                         rendered="#{gerenciamentoMBean.requestMedicamentoSetor.status}"/>
+                    </div>
+                <p:dialog id="bind_dialog" header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                          position="500, 450">
+
+                    <p:messages id="msg_bind_medicamento" showDetail="true" autoUpdate="true"/>
+
+                    <p:ajax event="close" update="bind" />  
+                </p:dialog> 
+
+            </div>
+        </h:panelGroup>
+    </h:form>
+</ui:fragment>
+
+

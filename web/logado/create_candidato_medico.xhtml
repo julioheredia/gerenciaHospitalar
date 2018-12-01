@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Novo Usuário</title>
+    </h:head>
+
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true">  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="createCandidatoMedico">
+
+        <div class="fieldsCollection">
+
+            <h:outputText value=" Candastro de Candidato à Médico " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B"/>
+
+            <div class="dotline"/>
+
+            <table>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="nome" value="Nome: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="nome" value="#{gerenciamentoMBean.medicoCandidato.nome}"
+                                     required="true" label="Nome"/>
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="crm" value="CRM: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="crm" value="#{gerenciamentoMBean.medicoCandidato.crm}"
+                                     required="true" label="crm"/>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="endereco" value="Endereço: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="endereco" value="#{gerenciamentoMBean.medicoCandidato.endereco}"
+                                     required="true" label="Endereço"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <h:outputLabel for="dataNascimento" value="Data de Nascimento: "/>
+                    </td>
+                    <td>
+                        <p:calendar id="dataNascimento" value="#{gerenciamentoMBean.medicoCandidato.dataNascimento}"
+                                    required="true" label="Data de Nascimento" pattern="dd/MM/yyyy"/>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel value="Especialização: "/>
+                    </td>
+                    <td>
+                        <p:selectOneMenu value="#{gerenciamentoMBean.medicoCandidato.especializacao}"> 
+                            <f:selectItems value="#{gerenciamentoMBean.especializacaoSelectList}"/>  
+                        </p:selectOneMenu>  
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <h:outputLabel for="tempoExperiencia" value="Tempo de Experiência(Anos): "/>
+                    </td>
+                    <td>
+                        <p:inputText id="tempoExperiencia" value="#{gerenciamentoMBean.medicoCandidato.tempoExperiencia}"
+                                     required="true" label="Tempo de Experiência"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <h:outputLabel value="Qualificação: "/>
+                    </td>
+                    <td>
+
+                        <p:selectOneMenu value="#{gerenciamentoMBean.medicoCandidato.qualificacao}"> 
+                            <f:selectItems value="#{gerenciamentoMBean.qualificacaoSelectList}"/>  
+                        </p:selectOneMenu>  
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <h:outputLabel for="honorarioDesejado" value="Honorários Desejado: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="honorarioDesejado" value="#{gerenciamentoMBean.medicoCandidato.honorarioDesejado}"
+                                     required="true" label="Honorários Desejado"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <h:outputLabel value="Referências Anteriores: "/>
+                    </td>
+                    <td>
+
+                        <p:selectOneMenu value="#{gerenciamentoMBean.medicoCandidato.referenciasAnteriores}" > 
+                            <f:selectItem itemLabel="Nenhuma" itemValue="#{0}"/>
+                            <f:selectItems value="#{gerenciamentoMBean.clinicaList}" var="clinica" itemLabel="#{clinica.nome}" itemValue="#{clinica.id}"/>  
+                        </p:selectOneMenu>  
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <div style="margin: 2em 2em;">
+                <p:commandButton id="plano_create_button" value="Salvar" icon="ui-icon-disk"
+                                 action="#{gerenciamentoMBean.createMedicoCandidato()}"
+                                 onsuccess="msgResp.show()"/>
+            </div>
+            <p:dialog header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                      position="500, 450" >
+
+                <p:messages id="msg_create_plano" showDetail="true" autoUpdate="true"/>              
+            </p:dialog> 
+
+        </div>
+
+    </h:form>
+</ui:fragment>
+
+

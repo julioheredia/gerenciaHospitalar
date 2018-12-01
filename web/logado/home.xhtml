@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Home</title>
+    </h:head>
+
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <div class="fieldsCollection" style="float: left; min-height: 430px;">
+
+        <h:outputText value="Bem Vindo" style="font-size: x-large; font-family: Palatino, serif;color: #EF593B;"/>
+        <h:outputText value=", ao Sistema de Gerenciamento Hospitalar" style="font-size: large; font-family: Palatino, serif;"/>
+
+        <br/>
+        <br/>
+        <h:outputText value="Sistema desenvolvido pelos alunos:" style=" font-family: Palatino, serif;font-size: large;"/>
+
+        <ul style="margin: 1em 5em;font-family: Palatino, serif;">
+
+            <li>Breno Henrique de Sousa Mol</li>
+            <li>Felipe Tadeu Salum Barroso</li>
+            <li>Julio Cesar do Carmo Heredia</li>
+            <li>Keoma Borges Martins Ferreira Reis</li>
+            <li>William de Jesus Kimo</li>
+        </ul>
+
+
+
+    </div>
+
+    <div class="fieldsCollection"  style="height:5px;clear: both;">
+
+        <div style=" border-top: 2px solid rgb(214, 214, 214);
+             height: 1px;
+             margin-bottom: 10px;
+             margin-top: 0.5em;
+             width: 70%;"/>
+
+        <div style="height: 5px;"/>
+
+        <p:graphicImage url="resources/images/puc-minas.jpg" style="height: 100px; width: 100px; float: left;" />  
+
+        <div style="height: 40px;"/>
+
+        <div style="font-family: Palatino, serif;font-size: small;">
+            Projeto de trabalho interdiciplinar<br/>
+            Disciplina de Projetos de Sistema de Informação
+        </div>
+
+    </div>
+</ui:fragment>
+

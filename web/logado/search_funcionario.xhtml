@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Lista de Funcionario</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <h:form id="searchProfessionalForm" onsubmit="statusMenu.show();">
+
+        <br/>
+        <br/>
+        <br/>
+        <div style="margin: 0em 5em">
+            <h:outputText value=" Pesquisa de Funcionários" style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B;"/>
+            <div class="dotline"/>
+        </div>
+
+        <div style=" margin: 2em 5em;">
+
+            <h:panelGroup id="searchFuncFiltro">
+                <h:outputText value="Pesquisar Por: " 
+                              style="font-size: 20px;font-family: Palatino, serif; color: #000;"/> 
+                <br/>
+                <br/>
+
+                <div style="float: left; width: 250px;">
+
+                    <p:selectBooleanCheckbox value="#{gerenciamentoMBean.searchNome}">
+                        <f:ajax render="searchFuncFiltro" execute="@this"/>
+                    </p:selectBooleanCheckbox>
+                    Nome
+                    <br/><br/>
+
+                    <h:panelGroup id="funcFiltroNome" 
+                                  rendered="#{gerenciamentoMBean.searchNome == true}">
+
+                        <p:inputText id="nome" value="#{gerenciamentoMBean.nomeProfissional}"/>
+
+                    </h:panelGroup>
+
+                </div>
+
+                <div style="float: left; width: 250px;">
+
+                    <p:selectBooleanCheckbox value="#{gerenciamentoMBean.searchType}">
+                        <f:ajax render="searchFuncFiltro" execute="@this"/>
+                    </p:selectBooleanCheckbox>
+                    Tipo
+
+                    <br/><br/>
+                    <h:panelGroup id="funcFiltroType"
+                                  rendered="#{gerenciamentoMBean.searchType == true}">
+                        <p:selectOneMenu id="tipos" value="#{gerenciamentoMBean.tipoProfSelect}">  
+
+                            <f:selectItem itemLabel="Médico" itemValue="M" />  
+                            <f:selectItem itemLabel="Enfermeiro" itemValue="E" />  
+                            <f:selectItem itemLabel="Farmacêutico" itemValue="F" />                            
+                        </p:selectOneMenu>  
+
+                    </h:panelGroup>
+                </div>
+
+                <div style="float: left; width: 50px;">
+
+                </div>
+
+                <br/>
+                <br/>
+
+                <p>
+
+                    <h:panelGroup id="button_search" style="margin: 3em 0em;"
+                                  rendered="#{gerenciamentoMBean.searchNome == true ||
+                                              gerenciamentoMBean.searchType == true}">
+
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Pesquisar" icon="ui-icon-search" update="searchFuncFiltro, prof_list"/>
+                    </h:panelGroup>
+
+                </p>
+
+
+                <div class="dotline"/>
+            </h:panelGroup>
+        </div>
+
+
+
+        <div align="center">
+
+
+            <h:panelGroup id="profSearch">
+
+                <p:dataTable id="prof_list" value="#{gerenciamentoMBean.profissionalListSearch}" var="profissional"
+                             style="width: 70%;" rowKey="#{profissional}"
+                             selection="#{gerenciamentoMBean.profissional}" selectionMode="single">
+
+                    <p:column headerText="Nome">  
+                        #{profissional.nome}  
+                    </p:column>  
+
+                    <p:column headerText="Equipe">  
+                        #{profissional.equipe.nome}  
+                    </p:column>  
+
+                    <p:column headerText="Tipo">
+                        <h:outputText value="Médico" rendered="#{profissional.discriminator == 'M'}"/>
+                        <h:outputText value="Enfermeiro" rendered="#{profissional.discriminator == 'E'}"/>
+                        <h:outputText value="Farmacêutico" rendered="#{profissional.discriminator == 'F'}"/>
+                    </p:column>
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="prof_remove" value="Remover" icon="ui-icon-trash" onclick="confirmation.show()"/>
+
+                        <p:commandButton id="call_edit" value="Editar" icon="ui-icon-pencil" ajax="false"
+                                         actionListener="#{gerenciamentoMBean.pageDirectEditProfissional()}"/>
+                    </f:facet>  
+                </p:dataTable>
+
+                <p:confirmDialog id="confirmDialog" message="Você realmente deseja remover este funcionário?"  
+                                 header="Remoção de Funcionário" severity="alert" widgetVar="confirmation">  
+
+                    <p:commandButton id="confirm" value="Sim" update="prof_list" oncomplete="confirmation.hide()"  
+                                     actionListener="#{gerenciamentoMBean.removeProfissional()}" />  
+                    <p:commandButton id="decline" value="Não" onclick="confirmation.hide()" type="button" />   
+
+                </p:confirmDialog> 
+
+            </h:panelGroup>
+
+
+        </div>
+
+    </h:form>
+
+</ui:fragment>
+

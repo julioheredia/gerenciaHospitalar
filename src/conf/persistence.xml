@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="GerenciaHospitalarPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>entidade.ConvenioSaudeEntidade</class>
+    <class>entidade.EquipeEntidade</class>
+    <class>entidade.EscalaEquipeEntidade</class>
+    <class>entidade.SetorEntidade</class>
+    <class>entidade.ExameEntidade</class>
+    <class>entidade.FarmaceuticoEntidade</class>
+    <class>entidade.MedicoEntidade</class>
+    <class>entidade.EnfermeiroEntidade</class>
+    <class>entidade.ProfissionalEntidade</class>
+    <class>entidade.RelClinicaExameEntidade</class>
+    <class>entidade.RelClinicaConvenioEntidade</class>
+    <class>entidade.ClinicaEntidade</class>
+    <class>entidade.UsuarioEntidade</class>
+    <class>entidade.RelExameConvenioEntidade</class>
+    <class>entidade.PatrimonioEntidade</class>
+    <class>entidade.MedicoCandidatoEntidade</class>
+    <class>entidade.MedicamentoEntidade</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gerencia_hospitalar?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.password" value="32340220"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+    </properties>
+  </persistence-unit>
+</persistence>

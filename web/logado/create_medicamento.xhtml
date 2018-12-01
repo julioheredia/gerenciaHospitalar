@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Novo Medicamento</title>
+    </h:head>
+
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true">  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="createMedicamento">
+
+        <div class="fieldsCollection">
+
+            <h:outputText value=" Candastro de Medicamento " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B"/>
+
+            <div class="dotline"/>
+
+            <table>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="codigo" value="Código: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="codigo" value="#{gerenciamentoMBean.medicamento.codigo}"
+                                     required="true" label="Código"/>
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="nome" value="Nome: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="nome" value="#{gerenciamentoMBean.medicamento.nome}"
+                                     required="true" label="Nome"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <h:outputLabel value="Tipo de Medicamento: "/>
+                    </td>
+                    <td>
+
+                        <p:selectOneMenu value="#{gerenciamentoMBean.medicamento.tipo}" > 
+                            <f:selectItems value="#{gerenciamentoMBean.tipoMedicamentoList}" var="tipoMedicamento" itemLabel="#{tipoMedicamento.nome}" itemValue="#{tipoMedicamento}"/>  
+                        </p:selectOneMenu>  
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <div style="margin: 2em 2em;">
+                <p:commandButton id="medicamento_create_button" value="Salvar" icon="ui-icon-disk"
+                                 action="#{gerenciamentoMBean.createMedicamento()}"
+                                 onsuccess="msgResp.show()"/>
+            </div>
+            <p:dialog header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                      position="500, 450" >
+
+                <p:messages id="msg_create_medicamento" showDetail="true" autoUpdate="true"/>              
+            </p:dialog> 
+
+        </div>
+
+    </h:form>
+</ui:fragment>
+
+

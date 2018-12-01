@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Editar Patrimônio</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+    <h:form id="editPatrimonio">
+
+        <div class="fieldsCollection">
+
+            <h:outputText value=" Editar Patrimônio " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B"/>
+
+            <div class="dotline"/>
+
+            <table>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="id" value="Código: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="id" value="#{gerenciamentoMBean.patrimonio.id}"
+                                     required="true" label="Código"/>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="nome" value="Nome: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="nome" value="#{gerenciamentoMBean.patrimonio.nome}"
+                                     required="true" label="Nome"/>
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel  value="Setor: "/>
+                    </td>
+                    <td>
+                        <p:selectOneMenu value="#{gerenciamentoMBean.patrimonio.setor}"  converter="setorConverter"> 
+                            <f:selectItems value="#{gerenciamentoMBean.setorList}" var="setor" itemLabel="#{setor.nome}" itemValue="#{setor}"/>  
+                        </p:selectOneMenu>  
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel value="Descrição: "/>
+                    </td>
+                    <td>
+                        <p:inputTextarea value="#{gerenciamentoMBean.patrimonio.descricao}" style="width: 400px; height: 100px;"/>
+                    </td>
+                </tr>
+            </table>
+            <div style="margin: 2em 2em;">
+                <p:commandButton id="patrimonio_edit" value="Salvar" icon="ui-icon-disk"
+                                 action="#{gerenciamentoMBean.editPatrimonio()}"
+                                 onsuccess="msgResp.show()"/>
+            </div>
+            <p:dialog header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                      position="500, 450">
+
+                <p:messages id="msg_edit_patri" showDetail="true" autoUpdate="true"/>              
+            </p:dialog>   
+
+        </div>
+
+    </h:form>
+</ui:fragment>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Menu</title>      
+
+        <h:outputScript library="primefaces/jquery" name="jquery.js"/>
+        <script type="text/javascript" src="resources/style/stylejavascript.js"/>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusMenu.show();" onsuccess="statusMenu.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusMenu" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+
+    <div class="box">         
+
+        <h:form id="menu" onsubmit="statusMenu.show();">
+
+            <ul id="ldd_menu" class="ldd_menu" >
+                <li>
+                    <span>Funcionários</span>
+                    <div class="ldd_submenu" >
+                        <ul>
+                            <li class="ldd_heading">Opções</li>
+                            <li> <p:commandLink  ajax="false" id="new_func" value="Novo Funcionário" action="#{gerenciamentoMBean.pageDirectCreateProfissional()}"/>
+                            </li>
+                            <li><p:commandLink ajax="false" id="lista_func" value="Lista de Funcionários" action="#{gerenciamentoMBean.pageDirectSelectProfissional()}"/></li>
+
+                            <li><p:commandLink ajax="false" id="search_func" value="Pesquisar Funcionários" action="#{gerenciamentoMBean.pageDirectSearchProfissional()}"/></li>
+                        </ul>
+
+                        <ul>
+                            <li class="ldd_heading">Candidatos</li>
+                            <li> <p:commandLink  ajax="false" id="new_candi" value="Novo Candidato à Médico" action="#{gerenciamentoMBean.pageDirectCreateCandidatoMedico()}"/></li>
+                            <li> <p:commandLink  ajax="false" id="relatorio_candi" value="Relatório de Candidatos à Médico" action="#{gerenciamentoMBean.pageDirectRelatorioCandidatoMedico()}"/></li>
+                        </ul>
+
+
+                    </div>
+                </li>
+
+                <li>
+                    <span>Usuário</span>
+                    <div class="ldd_submenu">
+                        <ul>
+                            <li class="ldd_heading">Opções</li>
+                            <li> <p:commandLink ajax="false" id="new_usuario" value="Novo Usuário" action="#{gerenciamentoMBean.pageDirectCreateUsuario()}"/>
+                            </li>
+                            <li><p:commandLink ajax="false" id="lista_usuario" value="Lista de Usuários" action="#{gerenciamentoMBean.pageDirectSelectUsuario()}"/></li>
+                        </ul>
+
+                    </div>
+                </li>
+                <li>
+                    <span>Clínicas &#38; Planos</span>
+                    <div class="ldd_submenu">
+                        <ul>
+                            <li class="ldd_heading">Clínica</li>
+                            <li><p:commandLink ajax="false" id="new_clinica" value="Nova Clínica" action="#{gerenciamentoMBean.pageDirectCreateClinica()}"/></li>
+                            <li><p:commandLink  ajax="false" id="lista_clinica" value="Lista de Clínicas" action="#{gerenciamentoMBean.pageDirectSelectClinica()}"/></li>
+
+                        </ul>
+                        <ul>
+                            <li class="ldd_heading">Plano de Saúde</li>
+                            <li><p:commandLink ajax="false" id="new_plano" value="Novo Plano de Saúde" action="#{gerenciamentoMBean.pageDirectCreatePlano()}"/></li>
+                            <li><p:commandLink ajax="false" id="lista_plano" value="Lista de Planos de Saúde" action="#{gerenciamentoMBean.pageDirectSelectPlano()}"/></li>
+                        </ul>
+
+                    </div>
+                </li>
+                <li>
+                    <span>Patrimônio &#38; Medicamento</span>
+                    <div class="ldd_submenu">
+                        <ul>
+                            <li class="ldd_heading">Opções</li>
+                            <li><p:commandLink ajax="false" id="new_patrimonio" value="Novo Patrimônio" action="#{gerenciamentoMBean.pageDirectCreatePatrimonio()}"/></li>
+                            <li><p:commandLink ajax="false" id="select_patrimonio" value="Lista de Patrimônios" action="#{gerenciamentoMBean.pageDirectSelectPatrimonio()}"/></li>
+                            <li><p:commandLink ajax="false" id="bind_patrimonio" value="Relacionar Patrimônio à Setor" action="#{gerenciamentoMBean.pageDirectBindPatrimonioSetor()}"/></li>
+                        </ul>
+                        <ul>
+                            <li class="ldd_heading">Medicamentos</li>
+                            <li><p:commandLink ajax="false" id="new_medicamento" value="Novo Medicamento" action="#{gerenciamentoMBean.pageDirectCreateMedicamento()}"/></li>
+                            <li><p:commandLink ajax="false" id="bind_medicamento" value="Relacionar Medicamento à Setor" action="#{gerenciamentoMBean.pageDirectBindMedicamentoSetor()}"/></li>
+                            <li><p:commandLink ajax="false" id="select_medicamento" value="Lista de Medicamentos" action="#{gerenciamentoMBean.pageDirectSelectMedicamento()}"/></li>
+                        </ul>
+
+                    </div>
+                </li>
+            </ul>
+
+        </h:form>
+    </div>
+
+</ui:fragment>
+

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Lista de Clínicas</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true">  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+
+    <h:form id="clinica_select" onsubmit="statusMenu.show();">
+
+
+        <br/>
+        <br/>
+        <div class="divList">
+            <h:outputText value=" Lista de Clínicas " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B;"/>
+        </div>
+
+        <div align="center">
+
+            <p:dataTable id="clinica_list" value="#{gerenciamentoMBean.clinicaList}" var="clinica"
+                         style="width: 70%;" rowKey="#{clinica}" 
+                         selection="#{gerenciamentoMBean.clinica}" selectionMode="single">
+
+                <p:column headerText="Nome">  
+                    #{clinica.nome}  
+                </p:column>  
+
+                <p:column headerText="Endereço">  
+                    #{clinica.endereco}  
+                </p:column>  
+                <p:column headerText="Telefone">  
+                    #{clinica.telefone}  
+                </p:column> 
+
+                <f:facet name="footer">  
+                    <p:commandButton id="clinica_remove" value="Remover" icon="ui-icon-trash"
+                                     onclick="confirmationClinica.show();"/>
+                    <p:commandButton ajax="false" id="call_edit_clinica" value="Editar" icon="ui-icon-pencil"
+                                     action="#{gerenciamentoMBean.pageDirectEditClinica()}"/>
+
+                </f:facet>  
+            </p:dataTable>
+
+            <p:confirmDialog  message="Você realmente deseja remover esta clínica?"  
+                              header="Remoção de Clínica" severity="alert" widgetVar="confirmationClinica">  
+
+                <p:commandButton value="Sim" update="clinica_list" oncomplete="confirmationClinica.hide()"  
+                                 actionListener="#{gerenciamentoMBean.removeClinica()}" />  
+                <p:commandButton value="Não" onclick="confirmationClinica.hide();" type="button" />   
+
+            </p:confirmDialog> 
+        </div>
+    </h:form>
+
+</ui:fragment>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Gerenciamento Hospitalar</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/style.css" />
+        <link rel="icon" href="resources/images/health_ico.png" type="image/ico"/>
+    </h:head>
+
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <h:body id="page">        
+
+        <table align="center" style="width: 90%;">
+            <tr>
+                <td>
+                    <div style="height: 200px;">
+
+                        <div style="float: left;">
+                            <p:graphicImage url="resources/images/e-Health.png" style="height: 197px; width: 200px;"/>
+
+                            <h:outputText value="Gerenciamento" style="font-size: xx-large; color: #591E12"/>
+                            <h:outputText value=" Hospitalar" style="font-size: xx-large;color: #D04528;"/>
+                        </div>
+                        <div style="float: right;">
+
+                            <h:form id="logOut" onsubmit="statusBar.show();" >
+                                <p:spacer height="30" />
+                                <p:commandButton style="background: #fff; border-color: aqua;font-size: medium; 
+                                                 width: 100px;border-radius: 5px 5px 5px 5px !important; font-weight: 500;" 
+                                                 value="Sair" actionListener="#{loginMBean.logOut()}"
+                                                 ajax="false"/>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div style="height: 10px;"></div>
+
+
+                    <div id="topo">                        
+                        <ui:include src="/logado/menu.xhtml"/>                      
+                    </div>
+                    <div id="centro">
+                        <ui:include src="#{gerenciamentoMBean.runningPage}"/>
+                    </div>
+                    <div id="rodape">
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </h:body>
+</ui:composition>
+

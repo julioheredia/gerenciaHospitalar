@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Vincular Patrimônio à Setor</title>
+    </h:head>
+
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true">  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="bindMedicamentoSetor" onsubmit="statusMenu.show();">
+
+        <h:panelGroup id="bind_patriomonio">
+
+            <div class="fieldsCollection">
+
+                <h:outputText value=" Vincular Patrimônio à Setor " style="font-size: xx-large; 
+                              font-family: Palatino, serif; color: #EF593B"/>
+
+                <div class="dotline"/>
+
+                <table>
+
+                    <tr >
+                        <td align="right">
+                            <h:outputLabel value="Patrimônios: "/>
+                        </td>
+                        <td>
+                            <p:selectOneMenu value="#{gerenciamentoMBean.patrimonio}" converter="patrimonioConverter"> 
+                                <f:selectItems value="#{gerenciamentoMBean.patrimonioList}" var="patrimonio" itemLabel="#{patrimonio.nome}" itemValue="#{patrimonio}"/>  
+                            </p:selectOneMenu> 
+                        </td>
+                    </tr>
+                    <tr >
+                        <td align="right">
+                            <h:outputLabel value="Setor: "/>
+                        </td>
+                        <td>
+                            <p:selectOneMenu value="#{gerenciamentoMBean.setor}" converter="setorConverter"> 
+                                <f:selectItems value="#{gerenciamentoMBean.setorList}" var="setor" itemLabel="#{setor.nome}" itemValue="#{setor}"/>  
+                            </p:selectOneMenu>  
+                        </td>
+                    </tr>
+
+                    <h:panelGroup id="area"
+                                  rendered="#{gerenciamentoMBean.requestPatrimonioSetor.areaNaoCadastrada}">
+
+                        <tr style="height:30px;font-family: Palatino, serif; color: #EF593B;">
+                            <td align="right">
+                                <h:outputLabel value="Vincule área à setor "/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel value="Áreas Hospitalares: "/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{gerenciamentoMBean.setor.areaHospitalar}" > 
+                                    <f:selectItems value="#{gerenciamentoMBean.areaHospitalarList}" var="areaHospitalar" itemLabel="#{areaHospitalar.nome}" itemValue="#{areaHospitalar}"/>  
+                                </p:selectOneMenu>  
+                            </td>
+                        </tr>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="tipo_patriomonio"
+                                  rendered="#{gerenciamentoMBean.requestPatrimonioSetor.tipoNaoCadastrado}">
+
+                        <tr style="height:30px;font-family: Palatino, serif; color: #EF593B;">
+                            <td align="right">
+                                <h:outputLabel value="Vincule tipo patrimônio à patrimônio "/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <h:outputLabel value="Tipos de Patrimônios: "/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{gerenciamentoMBean.patrimonio.tipo}" > 
+                                    <f:selectItems value="#{gerenciamentoMBean.tipoPatrimonioList}" var="tipoPatrimonio" itemLabel="#{tipoPatrimonio.nome}" itemValue="#{tipoPatrimonio}"/>  
+                                </p:selectOneMenu>  
+                            </td>
+                        </tr>
+                    </h:panelGroup>
+
+                </table>
+
+                <div style="margin: 2em 2em;">
+                    <p:commandButton id="medicamento_bind_button" value="Salvar" icon="ui-icon-disk"
+                                     action="#{gerenciamentoMBean.vincularPatrimonioSetor()}"
+                                     onsuccess="msgResp.show()"/>
+                </div>
+
+
+                <br/>
+                <br/>
+
+                <div align="center">
+                    <p:commandButton value="Lista de Patrimônios" icon="ui-icon-search" ajax="false"
+                                     action="#{gerenciamentoMBean.pageDirectSelectPatrimonio()}"
+                                     rendered="#{gerenciamentoMBean.requestPatrimonioSetor.status}"/>
+                </div>
+                <p:dialog id="bind_dialog" header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                          position="500, 450">
+
+                    <p:messages id="msg_bind_medicamento" showDetail="true" autoUpdate="true"/>
+
+                    <p:ajax event="close" update="bind_patriomonio" />  
+                </p:dialog> 
+
+            </div>
+        </h:panelGroup>
+    </h:form>
+</ui:fragment>
+
+

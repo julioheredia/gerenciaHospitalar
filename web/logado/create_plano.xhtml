@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns="http://www.w3.org/1999/xhtml"             
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Novo Plano de Saúde</title>
+    </h:head>
+
+    <p:ajaxStatus onstart="statusBar.show();" onsuccess="statusBar.hide();"/>
+    <p:dialog styleClass="status" modal="true" widgetVar="statusBar" showHeader="false" draggable="false"
+              resizable="false" visible="false" closable="false" appendToBody="true"
+              >  
+        <p:graphicImage url="resources/images/ajax-loader.gif" />  
+    </p:dialog>  
+
+    <br/>
+
+    <h:form id="createPlano">
+
+        <div class="fieldsCollection">
+
+            <h:outputText value=" Novo Plano de Saúde " style="font-size: xx-large; 
+                          font-family: Palatino, serif; color: #EF593B"/>
+
+            <div class="dotline"/>
+
+            <table>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="nome" value="Nome: "/>
+                    </td>
+                    <td>
+                        <p:inputText id="nome" value="#{gerenciamentoMBean.plano.nome}"
+                                     required="true" label="Nome"/>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="clinica" value="Clínicas: "/>
+                    </td>
+                    <td>
+                        <p:pickList id="clinica" value="#{gerenciamentoMBean.clinicaDualList}"                                                        
+                                    var="clinica" itemLabel="#{clinica.nome}" itemValue="#{clinica}" 
+                                    converter="clinicaConverter">
+                            <f:facet name="sourceCaption">Lista</f:facet>
+                            <f:facet name="targetCaption">Selecionados</f:facet>
+                        </p:pickList>
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">
+                        <h:outputLabel for="exame" value="Tipos de Exames: "/>
+                    </td>
+                    <td>
+                        <p:pickList id="exame" value="#{gerenciamentoMBean.exameDualList}"                                                        
+                                    var="exame" itemLabel="#{exame.nome}" itemValue="#{exame}" 
+                                    converter="exameConverter">
+                            <f:facet name="sourceCaption">Lista</f:facet>
+                            <f:facet name="targetCaption">Selecionados</f:facet>
+                        </p:pickList>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin: 2em 2em;">
+                <p:commandButton id="plano_create_button" value="Salvar" icon="ui-icon-disk"
+                                 action="#{gerenciamentoMBean.createPlano()}"
+                                 onsuccess="msgResp.show()"/>
+            </div>
+            <p:dialog header="Mensagem de Cofirmação" widgetVar="msgResp" modal="true" 
+                      position="500, 700" >
+
+                <p:messages id="msg_create_plano" showDetail="true" autoUpdate="true"/>              
+            </p:dialog>   
+
+        </div>
+
+    </h:form>
+
+
+
+</ui:fragment>
+
+
